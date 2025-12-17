@@ -1,0 +1,734 @@
+/* ==== БАЗОВЫЕ СТИЛИ С УВЕЛИЧЕННЫМ ТЕКСТОМ ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #F2F1ED;
+  --text: #161616;
+  --accent: #710014;
+  --light-accent: #B38F6F;
+  --border: #E5DAD5;
+  --shadow: rgba(0, 0, 0, 0.06);
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Улучшенная easing-функция */
+}
+
+/* ==== УЛУЧШЕННЫЙ СНЕГ ==== */
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  filter: blur(0.5px);
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) translateX(20px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ==== ПЛАВНЫЕ ПЕРЕХОДЫ МЕЖДУ СТРАНИЦАМИ ==== */
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8; /* Увеличили межстрочный интервал */
+  font-size: 1.15rem; /* Увеличили базовый размер текста */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  opacity: 0;
+  animation: fadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==== ОБЩИЙ КОНТЕЙНЕР ==== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+}
+
+/* ==== АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ==== */
+.animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==== ГЛАВНАЯ СТРАНИЦА - HEADER ==== */
+.header {
+  padding: 4rem 0 3rem; /* Увеличили отступы */
+  text-align: center;
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin: 1.5rem auto 2rem; /* Увеличили отступы */
+  border-radius: 1px;
+}
+
+.header h1 {
+  font-size: 3rem; /* Увеличили размер заголовка */
+  color: var(--accent);
+  margin-bottom: 1.2rem; /* Увеличили отступ */
+  letter-spacing: 1px;
+}
+
+.header p {
+  font-style: italic;
+  color: #5a524d;
+  font-size: 1.25rem; /* Увеличили размер текста */
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ==== ГЛАВНАЯ СТРАНИЦА - INTRO ==== */
+.intro {
+  margin: 0 auto 5rem; /* Увеличили отступ */
+  font-size: 1.25rem; /* Увеличили размер текста */
+  text-align: center;
+  color: #4a443f;
+  max-width: 800px;
+}
+
+.intro p {
+  margin-bottom: 2rem; /* Увеличили отступ */
+  line-height: 1.9;
+}
+
+/* ==== УЛУЧШЕННЫЕ КАРТОЧКИ КНИГ (УБИРАЕМ ДЕРГАННОСТЬ) ==== */
+.books-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem; /* Увеличили расстояние между карточками */
+  padding: 0 0 6rem; /* Увеличили отступ снизу */
+  margin: 0 auto;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 18px; /* Немного увеличили скругление */
+  overflow: hidden;
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.08), /* Увеличили размытие тени */
+    0 2px 4px rgba(113, 0, 20, 0.03);
+  text-decoration: none;
+  color: var(--text);
+  transition: 
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 400px; /* Немного увеличили максимальную ширину */
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  will-change: transform, box-shadow; /* Оптимизация для браузера */
+  backface-visibility: hidden; /* Убираем мерцание */
+  -webkit-font-smoothing: antialiased;
+}
+
+.book-card:hover {
+  transform: translateY(-12px) scale(1.02); /* Увеличили подъем */
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.12), /* Усилили тень при наведении */
+    0 8px 20px rgba(113, 0, 20, 0.1);
+}
+
+/* Улучшенный wrapper для изображения */
+.book-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px; /* Увеличили высоту изображения */
+  overflow: hidden;
+  transform: translateZ(0); /* Аппаратное ускорение */
+}
+
+.book-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), /* Увеличили время анимации */
+    filter 0.4s ease;
+  transform-origin: center center;
+}
+
+.book-card:hover img {
+  transform: scale(1.08); /* Увеличили масштаб */
+  filter: brightness(1.05); /* Легкое увеличение яркости */
+}
+
+/* Улучшенный hover-инфо */
+.book-hover-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top, 
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.85) 50%,
+    transparent 100%
+  );
+  color: white;
+  padding: 2.5rem 1.8rem 1.2rem; /* Увеличили отступы */
+  transform: translateY(100%);
+  transition: 
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none; /* Чтобы не мешало кликам */
+}
+
+.book-card:hover .book-hover-info {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.book-hover-info p {
+  font-size: 1.05rem; /* Увеличили размер текста */
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+}
+
+.hover-more {
+  font-size: 0.9rem; /* Увеличили размер */
+  opacity: 0.9;
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+.book-card h3 {
+  padding: 1.8rem 1.2rem 0.8rem; /* Увеличили отступы */
+  font-size: 1.35rem; /* Увеличили размер заголовка */
+  text-align: center;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.book-card:hover h3 {
+  color: var(--light-accent);
+}
+
+.book-author {
+  padding: 0 1.2rem 1.8rem; /* Увеличили отступы */
+  text-align: center;
+  font-style: italic;
+  color: var(--light-accent);
+  font-size: 1.1rem; /* Увеличили размер */
+}
+
+/* ==== СТРАНИЦЫ КНИГ ==== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 2rem; /* Увеличили отступ */
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 1.05rem; /* Увеличили размер */
+  transition: var(--transition);
+  padding: 0.6rem 1.2rem; /* Увеличили отступы */
+  border-radius: 20px;
+  background: rgba(113, 0, 20, 0.05);
+}
+
+.back-link:hover {
+  color: var(--light-accent);
+  background: rgba(113, 0, 20, 0.1);
+  transform: translateX(-5px);
+}
+
+.book-header {
+  padding: 3rem 0 2rem; /* Увеличили отступы */
+  text-align: center;
+  margin-bottom: 2.5rem; /* Увеличили отступ */
+  position: relative;
+}
+
+.book-header h1 {
+  font-size: 2.5rem; /* Увеличили размер заголовка */
+  margin: 0.5rem 0;
+  color: var(--accent);
+}
+
+.author {
+  font-style: italic;
+  color: var(--light-accent);
+  font-size: 1.25rem; /* Увеличили размер */
+  margin-top: 0.5rem;
+}
+
+.book-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.5rem; /* Увеличили расстояние между элементами */
+  padding: 0 0 5rem; /* Увеличили отступ снизу */
+  margin: 0 auto;
+}
+
+.book-cover {
+  flex: 1;
+  min-width: 300px; /* Увеличили минимальную ширину */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.book-cover img {
+  width: 100%;
+  max-width: 360px; /* Увеличили максимальную ширину */
+  border-radius: 14px; /* Увеличили скругление */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.book-text {
+  flex: 2;
+  min-width: 360px; /* Увеличили минимальную ширину */
+}
+
+.book-text h2 {
+  margin: 2.5rem 0 1.5rem; /* Увеличили отступы */
+  color: var(--accent);
+  font-size: 1.6rem; /* Увеличили размер заголовков */
+  position: relative;
+  padding-left: 14px; /* Увеличили отступ */
+}
+
+.book-text h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 5px; /* Увеличили ширину */
+  height: 0.9em; /* Увеличили высоту */
+  background: var(--light-accent);
+  border-radius: 2px;
+}
+
+.book-text p, .book-text ul {
+  margin-bottom: 1.8rem; /* Увеличили отступ */
+  font-size: 1.15rem; /* Увеличили размер текста */
+  line-height: 1.9;
+}
+
+/* ==== ТЕГИ ==== */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem; /* Увеличили расстояние */
+  margin: 1.2rem 0; /* Увеличили отступы */
+}
+
+.tags span {
+  background: var(--light-accent);
+  padding: 0.4rem 1rem; /* Увеличили отступы */
+  border-radius: 30px;
+  font-size: 1rem; /* Увеличили размер */
+  color: var(--text);
+  transition: var(--transition);
+}
+
+.tags span:hover {
+  background: #a07f5f;
+  transform: translateY(-2px);
+}
+
+/* ==== ЦИТАТЫ И ВОПРОСЫ ==== */
+blockquote {
+  font-style: italic;
+  padding: 2rem 2.5rem; /* Увеличили отступы */
+  border-left: 4px solid var(--accent); /* Увеличили толщину */
+  color: #555;
+  margin: 2rem 0; /* Увеличили отступы */
+  position: relative;
+  background: rgba(113, 0, 20, 0.03);
+  border-radius: 0 14px 14px 0; /* Увеличили скругление */
+  font-size: 1.2rem; /* Увеличили размер */
+  line-height: 1.8;
+}
+
+blockquote::before {
+  content: '"';
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 3.5rem; /* Увеличили размер */
+  color: var(--light-accent);
+  opacity: 0.2;
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1;
+}
+
+.quotes li, .questions li {
+  margin-bottom: 1.2rem; /* Увеличили отступ */
+  padding-left: 1.5rem; /* Увеличили отступ */
+  position: relative;
+  line-height: 1.7;
+  font-size: 1.1rem; /* Увеличили размер */
+}
+
+.quotes li::before, .questions li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 1.3rem; /* Увеличили размер */
+}
+
+/* ==== ОБНОВЛЕННАЯ СЕКЦИЯ ПОКУПКИ (БЕЗ ЛИТРЕС) ==== */
+.purchase-section {
+  margin: 3.5rem 0; /* Увеличили отступы */
+  padding: 2.5rem; /* Увеличили отступы */
+  text-align: center;
+  background: linear-gradient(135deg, rgba(179, 143, 111, 0.1), rgba(113, 0, 20, 0.05));
+  border-radius: 18px; /* Увеличили скругление */
+  border: 2px dashed var(--light-accent);
+}
+
+.purchase-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem; /* Увеличили расстояние */
+  justify-content: center;
+  margin: 2.5rem 0; /* Увеличили отступы */
+}
+
+.purchase-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px; /* Увеличили расстояние между иконкой и текстом */
+  background: linear-gradient(135deg, var(--accent), #8a001a);
+  color: white;
+  padding: 1.2rem 2.5rem; /* Увеличили отступы */
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.2rem; /* Увеличили размер текста */
+  transition: var(--transition);
+  box-shadow: 0 8px 20px rgba(113, 0, 20, 0.3); /* Увеличили тень */
+  border: 2px solid transparent;
+}
+
+.purchase-button:hover {
+  transform: translateY(-8px) scale(1.05); /* Увеличили эффект при наведении */
+  box-shadow: 0 15px 30px rgba(113, 0, 20, 0.4);
+  background: linear-gradient(135deg, #8a001a, var(--accent));
+  border-color: white;
+}
+
+.purchase-button.secondary {
+  background: linear-gradient(135deg, var(--light-accent), #9a7a5a);
+  box-shadow: 0 8px 20px rgba(179, 143, 111, 0.3);
+}
+
+.purchase-button.secondary:hover {
+  background: linear-gradient(135deg, #9a7a5a, var(--light-accent));
+  box-shadow: 0 15px 30px rgba(179, 143, 111, 0.4);
+}
+
+.purchase-button i {
+  font-size: 1.3rem; /* Увеличили размер иконок */
+}
+
+/* ==== ОТЗЫВЫ ==== */
+.reviews-section {
+  margin: 4.5rem 0 2.5rem; /* Увеличили отступы */
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem; /* Увеличили расстояние */
+  margin-top: 2rem; /* Увеличили отступ */
+}
+
+@media (min-width: 768px) {
+  .reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.review-card {
+  background: white;
+  border-radius: 14px; /* Увеличили скругление */
+  padding: 2rem; /* Увеличили отступы */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Увеличили тень */
+  transition: var(--transition);
+  border-left: 5px solid var(--light-accent); /* Увеличили толщину */
+}
+
+.review-card:hover {
+  transform: translateY(-8px); /* Увеличили эффект при наведении */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem; /* Увеличили отступ */
+}
+
+.review-author {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 1.2rem; /* Увеличили размер */
+}
+
+.review-date {
+  font-size: 0.95rem; /* Увеличили размер */
+  color: #888;
+}
+
+.review-rating {
+  color: #ffc107;
+  font-size: 1.2rem; /* Увеличили размер */
+  margin: 0.8rem 0; /* Увеличили отступ */
+}
+
+.review-text {
+  line-height: 1.7;
+  color: #555;
+  font-style: italic;
+  font-size: 1.1rem; /* Увеличили размер */
+}
+
+/* ==== ФУТЕР ==== */
+footer {
+  background: #f8f4f0;
+  border-top: 1px solid var(--border);
+  padding: 2rem 0; /* Увеличили отступы */
+  text-align: center;
+  font-size: 1.05rem; /* Увеличили размер текста */
+  color: #7a726d;
+  margin-top: auto;
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--light-accent);
+}
+
+/* ==== АДАПТИВ ДЛЯ ПЛАНШЕТОВ ==== */
+@media (min-width: 641px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem; /* Увеличили расстояние */
+    max-width: 800px;
+  }
+  
+  .book-card {
+    max-width: 100%;
+  }
+}
+
+/* ==== АДАПТИВ ДЛЯ ПК ==== */
+@media (min-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px;
+    gap: 3.5rem; /* Увеличили расстояние */
+    padding: 0 0 7rem; /* Увеличили отступ снизу */
+  }
+  
+  .header {
+    padding: 5rem 0 4rem; /* Увеличили отступы */
+  }
+  
+  .header h1 {
+    font-size: 3.5rem; /* Увеличили размер заголовка */
+  }
+  
+  .intro {
+    margin-bottom: 7rem; /* Увеличили отступ */
+    font-size: 1.3rem; /* Увеличили размер текста */
+    max-width: 850px;
+  }
+  
+  .book-header {
+    padding: 4rem 0 2.5rem; /* Увеличили отступы */
+  }
+  
+  .book-header h1 {
+    font-size: 3rem; /* Увеличили размер заголовка */
+  }
+  
+  .book-content {
+    gap: 4rem; /* Увеличили расстояние */
+  }
+  
+  .book-cover img {
+    max-width: 400px; /* Увеличили максимальную ширину */
+  }
+}
+
+/* ==== АДАПТИВ ДЛЯ МОБИЛЬНЫХ ==== */
+@media (max-width: 640px) {
+  .header {
+    padding: 3rem 0 2.5rem; /* Увеличили отступы */
+  }
+  
+  .header h1 {
+    font-size: 2.5rem; /* Увеличили размер */
+  }
+  
+  .header p {
+    font-size: 1.15rem; /* Увеличили размер */
+    padding: 0 1rem;
+  }
+  
+  .intro {
+    font-size: 1.15rem; /* Увеличили размер */
+    padding: 0 1.5rem;
+  }
+  
+  .books-grid {
+    padding: 0 1.5rem 5rem; /* Увеличили отступ */
+  }
+  
+  .book-header {
+    padding: 2.5rem 1.5rem 2rem; /* Увеличили отступы */
+  }
+  
+  .book-header h1 {
+    font-size: 2.2rem; /* Увеличили размер */
+  }
+  
+  .book-content {
+    flex-direction: column;
+    padding: 0 1.5rem 4rem; /* Увеличили отступ */
+  }
+  
+  .book-cover img {
+    max-width: 100%;
+  }
+  
+  .book-text {
+    min-width: auto;
+  }
+  
+  .book-text h2 {
+    font-size: 1.4rem; /* Увеличили размер */
+  }
+  
+  .purchase-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .purchase-button {
+    width: 100%;
+    max-width: 300px; /* Увеличили максимальную ширину */
+    justify-content: center;
+  }
+  
+  footer {
+    padding: 1.8rem 1.5rem; /* Увеличили отступы */
+  }
+}
+
+/* ==== ДОПОЛНИТЕЛЬНЫЕ УЛУЧШЕНИЯ ДЛЯ ГЛАДКОСТИ ==== */
+/* Убираем мерцание в Safari */
+.book-card {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Плавный скролл */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 20px;
+}
+
+/* Оптимизация для ретины */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .book-card img, .book-cover img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Доступность */
+a:focus,
+button:focus,
+.purchase-button:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.purchase-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.purchase-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
